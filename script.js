@@ -51,21 +51,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function showRandomMessage() {
         const tempMessageDiv = document.createElement('div');
         tempMessageDiv.className = 'random-message';
-        tempMessageDiv.style.cssText = `
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: rgba(255, 255, 255, 0.9);
-            border: 1px solid #ff4081;
-            padding: 10px 15px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            z-index: 1000;
-            font-size: 0.9em;
-            color: #e91e63;
-            animation: fadeInOut 5s forwards; /* Hiệu ứng hiện ra và biến mất */
-            pointer-events: none; /* Không cho người dùng click vào */
-        `;
         tempMessageDiv.innerHTML = `<p>${messages[Math.floor(Math.random() * messages.length)]}</p>`;
         document.body.appendChild(tempMessageDiv);
 
@@ -73,19 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             tempMessageDiv.remove();
         }, 5000); 
-
-        // Thêm CSS cho hiệu ứng animation vào head của tài liệu
-        const styleSheet = document.createElement("style");
-        styleSheet.type = "text/css";
-        styleSheet.innerText = `
-            @keyframes fadeInOut {
-                0% { opacity: 0; transform: translateY(20px); }
-                20% { opacity: 1; transform: translateY(0); }
-                80% { opacity: 1; transform: translateY(0); }
-                100% { opacity: 0; transform: translateY(20px); }
-            }
-        `;
-        document.head.appendChild(styleSheet);
     }
 
     // Gọi hàm tạo thông báo ngẫu nhiên sau 1.5 giây khi trang tải xong
