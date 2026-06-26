@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>✦ Thể Lệ — Infinity Community</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%23b39ddb'/%3E%3Cellipse cx='32' cy='32' rx='44' ry='10' fill='none' stroke='%23f8bbd0' stroke-width='3' opacity='0.8'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    /* ── DARK MODE ────────────────────────────────────── */
+    body.dark {
+      background: linear-gradient(135deg, #1a1030 0%, #0d1a2e 40%, #1e0d1a 100%);
+      color: #d4bfff;
+    }
+    body.dark nav { background: rgba(20,12,40,0.75); border-color: rgba(100,80,160,0.3); }
+    body.dark .card,
+    body.dark .rule-card,
+    body.dark .penalty-card,
+    body.dark .progress-wrap,
+    body.dark .roles-block { background: rgba(30,18,55,0.85); border-color: rgba(100,80,160,0.3); }
+    body.dark .rule-title,
+    body.dark .rule-num { color: #c9b3f5; }
+    body.dark .rule-desc { color: #a89dd4; }
+    body.dark footer { background: rgba(20,12,40,0.7); border-color: rgba(100,80,160,0.3); }
+    body.dark .nav-links a { color: #c9b3f5; }
+    body.dark .section-sub { color: #a89dd4; }
+    body.dark .penalty-card { background: rgba(30,18,55,0.85); }
+
+    /* ── DARK TOGGLE ──────────────────────────────────── */
+    .dark-toggle {
+      position: fixed;
+      top: 76px;
+      right: 20px;
+      z-index: 150;
+      background: var(--soft-white);
+      border: 1.5px solid rgba(197,179,240,0.35);
+      border-radius: 50px;
+      padding: 7px 16px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--deep);
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: background var(--t), color var(--t);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    body.dark .dark-toggle { background: rgba(30,18,55,0.9); color: #c9b3f5; border-color: rgba(100,80,160,0.4); }
+
+    /* ── PAGE HERO ────────────────────────────────────── */
+    .page-hero { padding: 80px 5% 50px; text-align: center; }
+    .page-hero-emoji { font-size: 3rem; display: block; margin-bottom: 16px; animation: float 3.5s ease-in-out infinite; }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+
+    /* ── RULES SECTION ────────────────────────────────── */
+    #rules { padding: 0 5% 80px; }
+    .rules-layout { max-width: 1000px; margin: 0 auto; }
+
+    .rule-group { margin-bottom: 48px; }
+    .rule-group-title {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: var(--deep);
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .rule-group-title::after {
+      content: '';
+      flex: 1;
+      height: 1.5px;
+      background: linear-gradient(90deg, rgba(197,179,240,0.4), transparent);
+    }
+
+    .rules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 18px;
+    }
+    .rule-card {
+      background: var(--soft-white);
+      border-radius: 16px;
+      padding: 22px 20px;
+      box-shadow: var(--shadow);
+      border: 1.5px solid rgba(197,179,240,0.2);
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      transition: transform var(--t), box-shadow var(--t);
+    }
+    .rule-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    .rule-card.warn { border-left: 4px solid #fdd835; }
+    .rule-card.danger { border-left: 4px solid #ef5350; }
+    .rule-card.info  { border-left: 4px solid var(--lavender); }
+    .rule-num {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(197,179,240,0.3), rgba(245,184,208,0.3));
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: var(--deep);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .rule-body {}
+    .rule-title {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--deep);
+      margin-bottom: 5px;
+    }
+    .rule-desc { font-size: 0.86rem; color: #7c62b0; line-height: 1.6; font-weight: 600; }
+
+    /* ── PENALTY TABLE ────────────────────────────────── */
+    #penalty { padding: 80px 5%; background: rgba(255,255,255,0.2); backdrop-filter: blur(6px); }
+    .penalty-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 18px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .penalty-card {
+      background: var(--soft-white);
+      border-radius: 16px;
+      padding: 22px 20px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      border: 1.5px solid rgba(197,179,240,0.2);
+      transition: transform var(--t);
+    }
+    .penalty-card:hover { transform: translateY(-4px); }
+    .penalty-icon { font-size: 1.8rem; margin-bottom: 10px; display: block; }
+    .penalty-level {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+    }
+    .level-warn { color: #f57f17; }
+    .level-mute { color: #0277bd; }
+    .level-kick { color: #6a1b9a; }
+    .level-ban  { color: #b71c1c; }
+    .penalty-desc { font-size: 0.82rem; color: #7c62b0; font-weight: 600; line-height: 1.55; }
+
+    /* ── AGREEMENT ────────────────────────────────────── */
+    #agreement { padding: 60px 5%; text-align: center; }
+    .agreement-box {
+      background: var(--soft-white);
+      border-radius: 24px;
+      padding: 44px 36px;
+      max-width: 640px;
+      margin: 0 auto;
+      box-shadow: var(--shadow);
+      border: 1.5px solid rgba(197,179,240,0.25);
+    }
+    .agreement-emoji { font-size: 2.5rem; margin-bottom: 14px; display: block; }
+    .agreement-title {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: var(--deep);
+      margin-bottom: 10px;
+    }
+    .agreement-sub { color: #7c62b0; font-size: 0.9rem; font-weight: 600; margin-bottom: 24px; line-height: 1.6; }
+    .agree-check-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--deep);
+      cursor: pointer;
+    }
+    .agree-check-wrap input { accent-color: var(--mid); width: 18px; height: 18px; }
+    #agreeBtn { opacity: 0.5; pointer-events: none; transition: opacity var(--t); }
+    #agreeBtn.ready { opacity: 1; pointer-events: auto; }
+  </style>
+</head>
+<body>
+
+<div class="starfield" id="starfield" aria-hidden="true"></div>
+<div class="cloud" style="width:270px;height:108px;top:14%;right:-45px;--dur:23s;--dx:-32px;--dy:14px;"></div>
+<div class="cloud" style="width:200px;height:85px;bottom:28%;left:-25px;--dur:20s;--dx:26px;--dy:-18px;"></div>
+
+<button class="dark-toggle" id="darkToggle">🌙 Dark Mode</button>
+
+<nav>
+  <a href="trang-chu.html" class="nav-logo">
+    <svg width="34" height="34" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+      <defs><radialGradient id="pg" cx="38%" cy="32%"><stop offset="0%" stop-color="#d9b8f5"/><stop offset="100%" stop-color="#7c4dcc"/></radialGradient></defs>
+      <circle cx="32" cy="32" r="24" fill="url(#pg)"/>
+      <ellipse cx="32" cy="32" rx="42" ry="9" fill="none" stroke="#f5b8d0" stroke-width="3.5" stroke-dasharray="5 3" opacity="0.85"/>
+      <circle cx="20" cy="22" r="4" fill="#fff9c4" opacity="0.9"/>
+      <circle cx="42" cy="38" r="2.5" fill="#f48fb1" opacity="0.85"/>
+    </svg>
+    <span>✦ Infinity Community ✦</span>
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="trang-chu.html">Trang Chủ</a></li>
+    <li><a href="kham-pha.html">Khám Phá</a></li>
+    <li><a href="huong-dan.html">Hướng Dẫn</a></li>
+    <li><a href="the-le.html">Thể Lệ</a></li>
+    <li><a href="https://discord.gg/eEqWgBvBZ" target="_blank" rel="noopener">Discord 🚀</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <section class="page-hero">
+    <span class="page-hero-emoji">📜</span>
+    <div class="section-label">Nội quy cộng đồng</div>
+    <h1 class="section-title">THỂ LỆ & NỘI QUY SERVER</h1>
+    <p class="section-sub" style="margin:0 auto;">Đọc kỹ và tuân thủ để có trải nghiệm tốt nhất trong cộng đồng Infinity. Tất cả thành viên đều phải tuân theo.</p>
+  </section>
+
+  <section id="rules">
+    <div class="rules-layout">
+
+      <!-- Group 1: Ứng xử -->
+      <div class="rule-group">
+        <div class="rule-group-title">💬 Ứng xử & Giao tiếp</div>
+        <div class="rules-grid">
+          <div class="rule-card info reveal">
+            <div class="rule-num">1</div>
+            <div class="rule-body">
+              <div class="rule-title">Tôn trọng lẫn nhau</div>
+              <p class="rule-desc">Không xúc phạm, chửi bới, phân biệt đối xử dưới bất kỳ hình thức nào. Tranh luận phải văn minh và có cơ sở.</p>
+            </div>
+          </div>
+          <div class="rule-card info reveal">
+            <div class="rule-num">2</div>
+            <div class="rule-body">
+              <div class="rule-title">Không spam</div>
+              <p class="rule-desc">Không gửi liên tục tin nhắn vô nghĩa, emoji, ký tự lặp lại, hoặc hình ảnh không phù hợp ngữ cảnh.</p>
+            </div>
+          </div>
+          <div class="rule-card info reveal">
+            <div class="rule-num">3</div>
+            <div class="rule-body">
+              <div class="rule-title">Dùng đúng kênh</div>
+              <p class="rule-desc">Mỗi kênh có mục đích riêng. Đọc mô tả kênh trước khi nhắn tin. Không cross-post cùng một nội dung vào nhiều kênh.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Group 2: Nội dung -->
+      <div class="rule-group">
+        <div class="rule-group-title">🖼️ Nội dung & Chia sẻ</div>
+        <div class="rules-grid">
+          <div class="rule-card warn reveal">
+            <div class="rule-num">4</div>
+            <div class="rule-body">
+              <div class="rule-title">Không nội dung 18+</div>
+              <p class="rule-desc">Tuyệt đối không chia sẻ nội dung người lớn, bạo lực, kinh dị hoặc nhạy cảm về chính trị trong bất kỳ kênh nào.</p>
+            </div>
+          </div>
+          <div class="rule-card warn reveal">
+            <div class="rule-num">5</div>
+            <div class="rule-body">
+              <div class="rule-title">Không quảng cáo</div>
+              <p class="rule-desc">Không tự ý quảng cáo server Discord khác, sản phẩm, dịch vụ hoặc kênh YouTube/TikTok cá nhân mà chưa có sự đồng ý của Admin.</p>
+            </div>
+          </div>
+          <div class="rule-card warn reveal">
+            <div class="rule-num">6</div>
+            <div class="rule-body">
+              <div class="rule-title">Không link độc hại</div>
+              <p class="rule-desc">Nghiêm cấm chia sẻ link phishing, malware, crack phần mềm, hoặc bất kỳ nội dung vi phạm pháp luật.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Group 3: Nghiêm cấm -->
+      <div class="rule-group">
+        <div class="rule-group-title">🚫 Nghiêm cấm tuyệt đối</div>
+        <div class="rules-grid">
+          <div class="rule-card danger reveal">
+            <div class="rule-num">7</div>
+            <div class="rule-body">
+              <div class="rule-title">Không harassment</div>
+              <p class="rule-desc">Không theo dõi, quấy rối, đe dọa thành viên khác trong DM hay kênh công khai. Vi phạm sẽ bị ban vĩnh viễn.</p>
+            </div>
+          </div>
+          <div class="rule-card danger reveal">
+            <div class="rule-num">8</div>
+            <div class="rule-body">
+              <div class="rule-title">Không mạo danh</div>
+              <p class="rule-desc">Không giả mạo Admin, Mod, hoặc thành viên khác. Không sử dụng tên/avatar gây nhầm lẫn với Staff.</p>
+            </div>
+          </div>
+          <div class="rule-card danger reveal">
+            <div class="rule-num">9</div>
+            <div class="rule-body">
+              <div class="rule-title">Tuân lệnh Staff</div>
+              <p class="rule-desc">Hợp tác với Moderator và Admin. Không tranh cãi quyết định của Staff nơi công cộng — liên hệ Admin nếu cần kháng cáo.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PENALTY LEVELS -->
+  <section id="penalty">
+    <div class="section-header">
+      <div class="section-label">Hình phạt</div>
+      <h2 class="section-title">CÁC MỨC XỬ PHẠT</h2>
+      <p class="section-sub">Vi phạm nội quy sẽ bị xử lý theo các mức độ từ nhẹ đến nặng tùy tình huống.</p>
+    </div>
+    <div class="penalty-grid">
+      <div class="penalty-card reveal">
+        <span class="penalty-icon">⚠️</span>
+        <div class="penalty-level level-warn">Cảnh cáo (Warn)</div>
+        <p class="penalty-desc">Vi phạm nhỏ lần đầu. 3 cảnh cáo sẽ tự động leo thang lên mức tiếp theo.</p>
+      </div>
+      <div class="penalty-card reveal">
+        <span class="penalty-icon">🔇</span>
+        <div class="penalty-level level-mute">Timeout / Mute</div>
+        <p class="penalty-desc">Khoá chat từ 1 giờ đến 7 ngày tùy mức độ vi phạm.</p>
+      </div>
+      <div class="penalty-card reveal">
+        <span class="penalty-icon">👢</span>
+        <div class="penalty-level level-kick">Kick khỏi server</div>
+        <p class="penalty-desc">Bị đuổi khỏi server. Có thể rejoin nhưng tiếp tục vi phạm sẽ bị ban.</p>
+      </div>
+      <div class="penalty-card reveal">
+        <span class="penalty-icon">🚫</span>
+        <div class="penalty-level level-ban">Ban vĩnh viễn</div>
+        <p class="penalty-desc">Vi phạm nghiêm trọng hoặc tái phạm nhiều lần. Không thể rejoin.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- AGREEMENT -->
+  <section id="agreement">
+    <div class="agreement-box reveal">
+      <span class="agreement-emoji">🤝</span>
+      <h2 class="agreement-title">Đồng ý với Nội Quy</h2>
+      <p class="agreement-sub">Bằng cách tham gia Infinity Community, bạn đồng ý tuân thủ tất cả các quy định trên. Hãy tích vào ô bên dưới để xác nhận!</p>
+      <label class="agree-check-wrap">
+        <input type="checkbox" id="agreeCheck" />
+        Tôi đã đọc và đồng ý với toàn bộ nội quy của Infinity Community.
+      </label>
+      <a href="https://discord.gg/eEqWgBvBZ" target="_blank" rel="noopener" class="cta-btn" id="agreeBtn">
+        <span>Tham gia ngay 🚀</span>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-links">
+    <a href="trang-chu.html">Trang Chủ</a>
+    <a href="kham-pha.html">Khám Phá</a>
+    <a href="huong-dan.html">Hướng Dẫn</a>
+    <a href="the-le.html">Thể Lệ</a>
+    <a href="https://discord.gg/eEqWgBvBZ" target="_blank" rel="noopener">Discord</a>
+  </div>
+  <p class="footer-copy">© 2026 Infinity Community. All rights reserved.</p>
+  <div class="footer-ticker-wrap">
+    <span class="footer-ticker">TOGETHER &nbsp;•&nbsp; WE ARE &nbsp;•&nbsp; INFINITE &nbsp;•&nbsp; TOGETHER &nbsp;•&nbsp; WE ARE &nbsp;•&nbsp; INFINITE</span>
+  </div>
+</footer>
+
+<button id="back-top" aria-label="Về đầu trang">↑</button>
+
+<script src="shared.js"></script>
+<script>
+  /* Dark mode */
+  const toggle = document.getElementById('darkToggle');
+  const saved = localStorage.getItem('ic-dark');
+  if (saved === '1') { document.body.classList.add('dark'); toggle.textContent = '☀️ Light Mode'; }
+  toggle.addEventListener('click', () => {
+    const on = document.body.classList.toggle('dark');
+    toggle.textContent = on ? '☀️ Light Mode' : '🌙 Dark Mode';
+    localStorage.setItem('ic-dark', on ? '1' : '0');
+  });
+
+  /* Agreement */
+  const check = document.getElementById('agreeCheck');
+  const btn = document.getElementById('agreeBtn');
+  check.addEventListener('change', () => btn.classList.toggle('ready', check.checked));
+</script>
+</body>
+</html>

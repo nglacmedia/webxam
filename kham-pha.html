@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>✦ Khám Phá — Infinity Community</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%23b39ddb'/%3E%3Cellipse cx='32' cy='32' rx='44' ry='10' fill='none' stroke='%23f8bbd0' stroke-width='3' opacity='0.8'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    /* ── PAGE HERO ────────────────────────────────────── */
+    .page-hero {
+      padding: 80px 5% 50px;
+      text-align: center;
+    }
+    .page-hero-emoji { font-size: 3rem; margin-bottom: 16px; display: block; animation: float 3.5s ease-in-out infinite; }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+
+    /* ── FILTER BAR ───────────────────────────────────── */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+    .filter-btn {
+      padding: 9px 22px;
+      border-radius: var(--radius-btn);
+      border: 1.5px solid rgba(197,179,240,0.35);
+      background: rgba(255,255,255,0.7);
+      color: var(--deep);
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: background var(--t), color var(--t), transform var(--t), border-color var(--t);
+      font-family: 'Nunito', sans-serif;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: linear-gradient(135deg, var(--lavender), var(--rose));
+      color: white;
+      border-color: transparent;
+      transform: translateY(-2px);
+    }
+
+    /* ── SEARCH BOX ───────────────────────────────────── */
+    .search-wrap {
+      max-width: 420px;
+      margin: 0 auto 36px;
+      position: relative;
+    }
+    .search-wrap input {
+      width: 100%;
+      padding: 13px 20px 13px 46px;
+      border-radius: var(--radius-btn);
+      border: 1.5px solid rgba(197,179,240,0.4);
+      background: rgba(255,255,255,0.8);
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--deep);
+      outline: none;
+      transition: border-color var(--t), box-shadow var(--t);
+    }
+    .search-wrap input:focus {
+      border-color: var(--lavender);
+      box-shadow: 0 0 0 3px rgba(197,179,240,0.25);
+    }
+    .search-wrap input::placeholder { color: #b39ddb; }
+    .search-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.1rem;
+      pointer-events: none;
+    }
+
+    /* ── THEMES GRID ──────────────────────────────────── */
+    .themes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .theme-card {
+      background: var(--soft-white);
+      border-radius: var(--radius-card);
+      padding: 32px 28px;
+      box-shadow: var(--shadow);
+      border: 1.5px solid rgba(197,179,240,0.22);
+      transition: transform var(--t), box-shadow var(--t), border-color var(--t), opacity var(--t);
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+    .theme-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(197,179,240,0.07), rgba(245,184,208,0.07));
+      opacity: 0;
+      transition: opacity var(--t);
+      pointer-events: none;
+    }
+    .theme-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: var(--shadow-lg); border-color: rgba(197,179,240,0.5); }
+    .theme-card:hover::after { opacity: 1; }
+    .theme-card.hidden { opacity: 0; pointer-events: none; height: 0; padding: 0; margin: 0; overflow: hidden; border: none; }
+    .card-icon {
+      font-size: 2.4rem;
+      margin-bottom: 14px;
+      display: block;
+      transition: transform var(--t);
+    }
+    .theme-card:hover .card-icon { transform: scale(1.15) rotate(-5deg); }
+    .card-cat {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--mid);
+      background: rgba(197,179,240,0.18);
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+    .card-title {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--deep);
+      margin-bottom: 8px;
+    }
+    .card-desc { font-size: 0.9rem; color: #7c62b0; line-height: 1.65; font-weight: 600; }
+    .card-link {
+      display: inline-block;
+      margin-top: 14px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--mid);
+      text-decoration: none;
+      border-bottom: 1.5px solid rgba(197,179,240,0.5);
+      transition: color var(--t), border-color var(--t);
+    }
+    .card-link:hover { color: var(--deep); border-color: var(--deep); }
+
+    /* ── NO RESULTS ───────────────────────────────────── */
+    .no-results {
+      text-align: center;
+      padding: 60px 20px;
+      color: #b39ddb;
+      font-weight: 700;
+      font-size: 1rem;
+      display: none;
+    }
+    .no-results.show { display: block; }
+
+    /* ── GAMES SHOWCASE ───────────────────────────────── */
+    #games-section { padding: 80px 5%; background: rgba(255,255,255,0.22); backdrop-filter: blur(6px); }
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 18px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .game-card {
+      background: var(--soft-white);
+      border-radius: 16px;
+      padding: 22px 18px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      border: 1.5px solid rgba(197,179,240,0.2);
+      transition: transform var(--t), box-shadow var(--t);
+    }
+    .game-card:hover { transform: translateY(-5px) scale(1.03); box-shadow: var(--shadow-lg); }
+    .game-icon { font-size: 2rem; margin-bottom: 10px; display: block; }
+    .game-name {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--deep);
+      margin-bottom: 4px;
+    }
+    .game-players { font-size: 0.8rem; color: #b39ddb; font-weight: 600; }
+    .game-status {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 50px;
+    }
+    .status-hot { background: rgba(239,83,80,0.12); color: #c62828; }
+    .status-active { background: rgba(102,187,106,0.15); color: #2e7d32; }
+    .status-new { background: rgba(100,181,246,0.15); color: #1565c0; }
+  </style>
+</head>
+<body>
+
+<div class="starfield" id="starfield" aria-hidden="true"></div>
+<div class="cloud" style="width:280px;height:110px;top:10%;right:-50px;--dur:20s;--dx:-35px;--dy:18px;"></div>
+<div class="cloud" style="width:200px;height:85px;bottom:25%;left:-30px;--dur:24s;--dx:28px;--dy:-12px;"></div>
+
+<nav>
+  <a href="trang-chu.html" class="nav-logo">
+    <svg width="34" height="34" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+      <defs><radialGradient id="pg" cx="38%" cy="32%"><stop offset="0%" stop-color="#d9b8f5"/><stop offset="100%" stop-color="#7c4dcc"/></radialGradient></defs>
+      <circle cx="32" cy="32" r="24" fill="url(#pg)"/>
+      <ellipse cx="32" cy="32" rx="42" ry="9" fill="none" stroke="#f5b8d0" stroke-width="3.5" stroke-dasharray="5 3" opacity="0.85"/>
+      <circle cx="20" cy="22" r="4" fill="#fff9c4" opacity="0.9"/>
+      <circle cx="42" cy="38" r="2.5" fill="#f48fb1" opacity="0.85"/>
+    </svg>
+    <span>✦ Infinity Community ✦</span>
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="trang-chu.html">Trang Chủ</a></li>
+    <li><a href="kham-pha.html">Khám Phá</a></li>
+    <li><a href="huong-dan.html">Hướng Dẫn</a></li>
+    <li><a href="the-le.html">Thể Lệ</a></li>
+    <li><a href="https://discord.gg/eEqWgBvBZ" target="_blank" rel="noopener">Discord 🚀</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <span class="page-hero-emoji">🌌</span>
+    <div class="section-label">Thế giới của chúng tôi</div>
+    <h1 class="section-title">KHÁM PHÁ THẾ GIỚI CỦA CHÚNG TÔI</h1>
+    <p class="section-sub" style="margin:0 auto 36px;">Một thế giới giải trí đa dạng với rất nhiều loại game và hoạt động hấp dẫn dành cho bạn!</p>
+
+    <!-- Search -->
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchBox" placeholder="Tìm kiếm hoạt động..." autocomplete="off" />
+    </div>
+
+    <!-- Filter -->
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">🌟 Tất cả</button>
+      <button class="filter-btn" data-filter="social">💬 Xã hội</button>
+      <button class="filter-btn" data-filter="game">🎮 Game</button>
+      <button class="filter-btn" data-filter="creative">🎨 Sáng tạo</button>
+      <button class="filter-btn" data-filter="resource">📂 Tài nguyên</button>
+      <button class="filter-btn" data-filter="event">🎁 Sự kiện</button>
+    </div>
+  </section>
+
+  <!-- THEMES GRID -->
+  <section style="padding:0 5% 80px;">
+    <div class="themes-grid" id="themesGrid">
+
+      <div class="theme-card reveal" data-cat="social" data-keywords="trò chuyện chat kết bạn giao lưu">
+        <span class="card-icon">💬</span>
+        <span class="card-cat">Xã hội</span>
+        <div class="card-title">TRÒ CHUYỆN (CHAT)</div>
+        <p class="card-desc">Giao lưu, kết bạn thoải mái với các kênh chat chủ đề phong phú. Không giới hạn, không khoảng cách.</p>
+        <a href="https://discord.gg/eEqWgBvBZ" target="_blank" rel="noopener" class="card-link">Vào kênh →</a>
+      </div>
+
+      <div class="theme-card reveal" data-cat="game" data-keywords="game minecraft roblox gta chơi đồng đội">
+        <span class="card-icon">🎮</span>
+        <span class="card-cat">Game</span>
+        <div class="card-title">CHƠI GAME (GAME)</div>
+        <p class="card-desc">Tìm đồng đội chiến Minecraft, Roblox, GTA 5 (Los Santos) và nhiều tựa game hot khác. Cộng đồng đa dạng!</p>
+        <a href="https://discord.gg/eEqWgBvBZ" target="_blank" rel="noopener" class="card-link">Tìm team →</a>
+      </div>
+
+      <div class="theme-card reveal" data-cat="creative" data-keywords="sáng tạo art thiết kế chia sẻ tác phẩm">
+        <span class="card-icon">🎨</span>
+        <span class="card-cat">Sáng tạo</span>
+        <div class="card-title">SÁNG TẠO (SHARE)</div>
+        <p class="card-desc">Chia sẻ tác phẩm art, khoe tài năng thiết kế và cùng phát triển ý tưởng không giới hạn.</p>
+        <a href="https://discord.gg/eEqWgBvBZ" target="_blank" rel="noopener" class="card-link">Chia sẻ ngay →</a>
+      </div>
+
+      <div class="theme-card reveal" data-cat="resource" data-keywords="tài nguyên file link miễn phí thư viện">
+        <span class="card-icon">📂</span>
+        <span class="card-cat">Tài nguyên</span>
+        <div class="card-title">TÀI NGUYÊN (RESOURCES)</div>
+        <p class="card-desc">Thư viện file, link hữu ích, tài nguyên sáng tạo hoàn toàn miễn phí dành cho mọi thành viên.</p>
+        <a href="https://discord.gg/eEqWgBvBZ" target="_blank" rel="noopener" class="card-link">Tải về →</a>
+      </div>
+
+      <div class="theme-card reveal" data-cat="social" data-keywords="talk show podcast giao lưu chia sẻ kinh nghiệm trực tiếp">
+        <span class="card-icon">🎙️</span>
+        <span class="card-cat">Xã hội</span>
+        <div class="card-title">ĐÀM THOẠI (TALK SHOW)</div>
+        <p class="card-desc">Tham gia các buổi giao lưu, chia sẻ kinh nghiệm, podcast trực tiếp siêu cuốn cùng cộng đồng.</p>
+        <a href="https://discord.gg/eEqWgBvBZ" target="_blank" rel="noopener" class="card-link">Xem lịch →</a>
+      </div>
+
+      <div class="theme-card reveal" data-cat="event" data-keywords="sự kiện giveaway cuộc thi quà tặng">
+        <span class="card-icon">🎁</span>
+        <span class="card-cat">Sự kiện</span>
+        <div class="card-title">SỰ KIỆN (EVENTS)</div>
+        <p class="card-desc">Các cuộc thi, sự kiện cộng đồng và giveaway hấp dẫn với quà tặng độc đáo. Cơ hội đang chờ bạn!</p>
+        <a href="https://discord.gg/eEqWgBvBZ" target="_blank" rel="noopener" class="card-link">Tham gia →</a>
+      </div>
+
+      <div class="theme-card reveal" data-cat="game" data-keywords="music âm nhạc nghe nhạc kênh music bot">
+        <span class="card-icon">🎵</span>
+        <span class="card-cat">Game</span>
+        <div class="card-title">ÂM NHẠC (MUSIC)</div>
+        <p class="card-desc">Nghe nhạc cùng nhau trong kênh voice với bot music xịn sò. Thư giãn sau những giờ căng thẳng.</p>
+        <a href="https://discord.gg/eEqWgBvBZ" target="_blank" rel="noopener" class="card-link">Nghe nhạc →</a>
+      </div>
+
+      <div class="theme-card reveal" data-cat="creative" data-keywords="ảnh meme funny hài hước vui vẻ">
+        <span class="card-icon">😂</span>
+        <span class="card-cat">Sáng tạo</span>
+        <div class="card-title">MEME & FUNNY</div>
+        <p class="card-desc">Kênh dành riêng cho meme, ảnh hài hước và những khoảnh khắc vui nhộn không thể bỏ lỡ.</p>
+        <a href="https://discord.gg/eEqWgBvBZ" target="_blank" rel="noopener" class="card-link">Xem meme →</a>
+      </div>
+
+    </div>
+    <div class="no-results" id="noResults">🔍 Không tìm thấy kết quả nào. Thử từ khóa khác nhé!</div>
+  </section>
+
+  <!-- GAMES SHOWCASE -->
+  <section id="games-section">
+    <div class="section-header">
+      <div class="section-label">Game hot</div>
+      <h2 class="section-title">CÁC TỰA GAME NỔI BẬT</h2>
+      <p class="section-sub">Tìm đồng đội cho những tựa game đang được yêu thích nhất trong server!</p>
+    </div>
+    <div class="games-grid">
+      <div class="game-card reveal">
+        <span class="game-icon">⛏️</span>
+        <div class="game-name">Minecraft</div>
+        <div class="game-players">🟢 120+ người chơi</div>
+        <span class="game-status status-hot">🔥 HOT</span>
+      </div>
+      <div class="game-card reveal">
+        <span class="game-icon">🧱</span>
+        <div class="game-name">Roblox</div>
+        <div class="game-players">🟢 85+ người chơi</div>
+        <span class="game-status status-hot">🔥 HOT</span>
+      </div>
+      <div class="game-card reveal">
+        <span class="game-icon">🚗</span>
+        <div class="game-name">GTA 5</div>
+        <div class="game-players">🟢 60+ người chơi</div>
+        <span class="game-status status-active">✅ Hoạt động</span>
+      </div>
+      <div class="game-card reveal">
+        <span class="game-icon">⚔️</span>
+        <div class="game-name">Valorant</div>
+        <div class="game-players">🟢 45+ người chơi</div>
+        <span class="game-status status-active">✅ Hoạt động</span>
+      </div>
+      <div class="game-card reveal">
+        <span class="game-icon">🌸</span>
+        <div class="game-name">Genshin Impact</div>
+        <div class="game-players">🟡 30+ người chơi</div>
+        <span class="game-status status-new">🆕 Mới</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-links">
+    <a href="trang-chu.html">Trang Chủ</a>
+    <a href="kham-pha.html">Khám Phá</a>
+    <a href="huong-dan.html">Hướng Dẫn</a>
+    <a href="the-le.html">Thể Lệ</a>
+    <a href="https://discord.gg/eEqWgBvBZ" target="_blank" rel="noopener">Discord</a>
+  </div>
+  <p class="footer-copy">© 2026 Infinity Community. All rights reserved.</p>
+  <div class="footer-ticker-wrap">
+    <span class="footer-ticker">TOGETHER &nbsp;•&nbsp; WE ARE &nbsp;•&nbsp; INFINITE &nbsp;•&nbsp; TOGETHER &nbsp;•&nbsp; WE ARE &nbsp;•&nbsp; INFINITE</span>
+  </div>
+</footer>
+
+<button id="back-top" aria-label="Về đầu trang">↑</button>
+
+<script src="shared.js"></script>
+<script>
+  /* Filter + Search */
+  const cards = document.querySelectorAll('.theme-card');
+  const noResults = document.getElementById('noResults');
+  const searchBox = document.getElementById('searchBox');
+
+  function filterCards() {
+    const active = document.querySelector('.filter-btn.active').dataset.filter;
+    const query = searchBox.value.toLowerCase().trim();
+    let visible = 0;
+    cards.forEach(card => {
+      const catMatch = active === 'all' || card.dataset.cat === active;
+      const kwMatch = !query || card.dataset.keywords.includes(query) || card.querySelector('.card-title').textContent.toLowerCase().includes(query);
+      const show = catMatch && kwMatch;
+      card.classList.toggle('hidden', !show);
+      if (show) visible++;
+    });
+    noResults.classList.toggle('show', visible === 0);
+  }
+
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      filterCards();
+    });
+  });
+
+  searchBox.addEventListener('input', filterCards);
+</script>
+</body>
+</html>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>✦ Infinity Community — Trang Chủ</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%23b39ddb'/%3E%3Cellipse cx='32' cy='32' rx='44' ry='10' fill='none' stroke='%23f8bbd0' stroke-width='3' opacity='0.8'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    /* ── HERO ─────────────────────────────────────────── */
+    #hero {
+      min-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 5% 60px;
+      position: relative;
+    }
+    .hero-planet {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 30px;
+      animation: float 4s ease-in-out infinite;
+      filter: drop-shadow(0 10px 28px rgba(150,120,200,0.38));
+    }
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-16px); }
+    }
+    .hero-title {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 5.5vw, 3.8rem);
+      line-height: 1.2;
+      background: linear-gradient(135deg, #6a4fa3 0%, #9b7fd4 45%, #e591b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 18px;
+      filter: drop-shadow(0 3px 8px rgba(106,79,163,0.18));
+    }
+    .hero-sub {
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: #7c62b0;
+      font-weight: 600;
+      max-width: 540px;
+      margin: 0 auto 16px;
+      line-height: 1.65;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(197,179,240,0.2);
+      border: 1.5px solid rgba(197,179,240,0.4);
+      border-radius: 50px;
+      padding: 6px 18px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--mid);
+      margin-bottom: 32px;
+    }
+    .pulse-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #66bb6a;
+      animation: pulse-green 1.6s ease-in-out infinite;
+    }
+    @keyframes pulse-green {
+      0%,100% { box-shadow: 0 0 0 0 rgba(102,187,106,0.6); }
+      50%      { box-shadow: 0 0 0 6px rgba(102,187,106,0); }
+    }
+    .hero-btns {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .scroll-hint {
+      position: absolute;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0.45;
+      animation: bounce 2s ease-in-out infinite;
+    }
+    .scroll-hint svg { width: 22px; }
+    @keyframes bounce {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ── STATS COUNTER ────────────────────────────────── */
+    #stats {
+      padding: 60px 5%;
+      background: rgba(255,255,255,0.28);
+      backdrop-filter: blur(8px);
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 24px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .stat-card {
+      background: var(--soft-white);
+      border-radius: var(--radius-card);
+      padding: 28px 20px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      border: 1.5px solid rgba(197,179,240,0.22);
+    }
+    .stat-icon { font-size: 2rem; margin-bottom: 10px; display: block; }
+    .stat-num {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 2.2rem;
+      background: linear-gradient(135deg, var(--deep), #e591b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label { font-size: 0.88rem; font-weight: 600; color: #7c62b0; margin-top: 4px; }
+
+    /* ── ANNOUNCEMENTS ────────────────────────────────── */
+    #announcements { padding: 80px 5%; }
+    .announce-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 22px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .announce-card {
+      background: var(--soft-white);
+      border-radius: var(--radius-card);
+      padding: 26px 24px;
+      box-shadow: var(--shadow);
+      border: 1.5px solid rgba(197,179,240,0.22);
+      transition: transform var(--t), box-shadow var(--t);
+      cursor: default;
+    }
+    .announce-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+    .announce-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 50px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .tag-event   { background: rgba(245,184,208,0.3); color: #c2185b; }
+    .tag-update  { background: rgba(168,216,240,0.35); color: #0277bd; }
+    .tag-news    { background: rgba(197,179,240,0.3); color: #512da8; }
+    .announce-title {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--deep);
+      margin-bottom: 8px;
+    }
+    .announce-desc { font-size: 0.88rem; color: #7c62b0; font-weight: 600; line-height: 1.6; }
+    .announce-date { font-size: 0.78rem; color: #b39ddb; font-weight: 600; margin-top: 12px; }
+
+    /* ── DISCORD MINI ─────────────────────────────────── */
+    #discord-home { padding: 80px 5%; text-align: center; }
+    .discord-wrap {
+      background: var(--soft-white);
+      border-radius: 28px;
+      padding: 50px 36px;
+      max-width: 620px;
+      margin: 0 auto;
+      box-shadow: var(--shadow);
+      border: 1.5px solid rgba(197,179,240,0.25);
+    }
+    .discord-logo { font-size: 3.2rem; margin-bottom: 16px; }
+    .discord-title {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 1.65rem;
+      color: var(--deep);
+      margin-bottom: 10px;
+    }
+    .discord-sub { color: #7c62b0; font-weight: 600; font-size: 0.95rem; margin-bottom: 26px; line-height: 1.6; }
+  </style>
+</head>
+<body>
+
+<div class="starfield" id="starfield" aria-hidden="true"></div>
+<div class="cloud" style="width:300px;height:120px;top:8%;left:-60px;--dur:22s;--dx:40px;--dy:20px;"></div>
+<div class="cloud" style="width:200px;height:90px;top:38%;right:-40px;--dur:18s;--dx:-30px;--dy:12px;"></div>
+<div class="cloud" style="width:240px;height:100px;bottom:18%;left:12%;--dur:26s;--dx:25px;--dy:-15px;"></div>
+
+<!-- NAVBAR -->
+<nav>
+  <a href="trang-chu.html" class="nav-logo">
+    <svg width="34" height="34" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+      <defs><radialGradient id="pg" cx="38%" cy="32%"><stop offset="0%" stop-color="#d9b8f5"/><stop offset="100%" stop-color="#7c4dcc"/></radialGradient></defs>
+      <circle cx="32" cy="32" r="24" fill="url(#pg)"/>
+      <ellipse cx="32" cy="32" rx="42" ry="9" fill="none" stroke="#f5b8d0" stroke-width="3.5" stroke-dasharray="5 3" opacity="0.85"/>
+      <circle cx="20" cy="22" r="4" fill="#fff9c4" opacity="0.9"/>
+      <circle cx="42" cy="38" r="2.5" fill="#f48fb1" opacity="0.85"/>
+    </svg>
+    <span>✦ Infinity Community ✦</span>
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="trang-chu.html">Trang Chủ</a></li>
+    <li><a href="kham-pha.html">Khám Phá</a></li>
+    <li><a href="huong-dan.html">Hướng Dẫn</a></li>
+    <li><a href="the-le.html">Thể Lệ</a></li>
+    <li><a href="https://discord.gg/eEqWgBvBZ" target="_blank" rel="noopener">Discord 🚀</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- HERO -->
+  <section id="hero">
+    <svg class="hero-planet" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="hpg" cx="38%" cy="32%"><stop offset="0%" stop-color="#e8b4f5"/><stop offset="60%" stop-color="#9b7fd4"/><stop offset="100%" stop-color="#5c3fa0"/></radialGradient>
+        <radialGradient id="gl" cx="35%" cy="30%"><stop offset="0%" stop-color="rgba(255,255,255,0.5)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></radialGradient>
+      </defs>
+      <ellipse cx="100" cy="100" rx="136" ry="28" fill="none" stroke="#f5b8d0" stroke-width="6" stroke-dasharray="8 5" opacity="0.75"/>
+      <circle cx="100" cy="100" r="72" fill="url(#hpg)"/>
+      <circle cx="100" cy="100" r="72" fill="url(#gl)"/>
+      <circle cx="78" cy="82" r="9" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+      <circle cx="120" cy="115" r="6" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+      <circle cx="148" cy="60" r="4" fill="#fff9c4" opacity="0.9"/>
+      <circle cx="58" cy="140" r="3" fill="#f48fb1" opacity="0.85"/>
+    </svg>
+
+    <h1 class="hero-title">Chào mừng bạn đến với<br/>Ngôi nhà Vô cực!</h1>
+    <p class="hero-sub">Kết nối và Sáng tạo không giới hạn.<br/>Nơi hội tụ các tâm hồn đồng điệu.</p>
+    <div class="hero-badge">
+      <span class="pulse-dot"></span>
+      Server đang hoạt động • Mở 24/7
+    </div>
+    <div class="hero-btns">
+      <a href="https://discord.gg/eEqWgBvBZ" target="_blank" rel="noopener" class="cta-btn"><span>THAM GIA NGAY 🚀</span></a>
+      <a href="kham-pha.html" class="cta-btn outline"><span>Khám Phá ✨</span></a>
+    </div>
+
+    <div class="scroll-hint" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#9b7fd4" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+  </section>
+
+  <!-- STATS COUNTER -->
+  <section id="stats">
+    <div class="stats-grid">
+      <div class="stat-card reveal">
+        <span class="stat-icon">👥</span>
+        <div class="stat-num" data-target="1200" data-suffix="+">0</div>
+        <div class="stat-label">Thành viên</div>
+      </div>
+      <div class="stat-card reveal">
+        <span class="stat-icon">🎮</span>
+        <div class="stat-num" data-target="15" data-suffix="+">0</div>
+        <div class="stat-label">Kênh Game</div>
+      </div>
+      <div class="stat-card reveal">
+        <span class="stat-icon">🎁</span>
+        <div class="stat-num" data-target="48" data-suffix="">0</div>
+        <div class="stat-label">Sự kiện đã tổ chức</div>
+      </div>
+      <div class="stat-card reveal">
+        <span class="stat-icon">⭐</span>
+        <div class="stat-num" data-target="24" data-suffix="/7">0</div>
+        <div class="stat-label">Hoạt động</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ANNOUNCEMENTS -->
+  <section id="announcements">
+    <div class="section-header">
+      <div class="section-label">Mới nhất</div>
+      <h2 class="section-title">TIN TỨC & THÔNG BÁO</h2>
+      <p class="section-sub">Cập nhật những điều mới nhất từ cộng đồng Infinity.</p>
+    </div>
+    <div class="announce-grid">
+      <div class="announce-card reveal">
+        <span class="announce-tag tag-event">Sự kiện</span>
+        <div class="announce-title">🎁 Giveaway mừng 1000 thành viên!</div>
+        <p class="announce-desc">Server đã chính thức vượt mốc 1000 thành viên! Tham gia giveaway đặc biệt với nhiều phần quà hấp dẫn.</p>
+        <div class="announce-date">📅 Tháng 6, 2026</div>
+      </div>
+      <div class="announce-card reveal">
+        <span class="announce-tag tag-update">Cập nhật</span>
+        <div class="announce-title">🆕 Kênh Roblox & Minecraft mới mở!</div>
+        <p class="announce-desc">Hai kênh game mới dành cho Roblox và Minecraft vừa được khai trương. Tìm đồng đội chiến ngay thôi!</p>
+        <div class="announce-date">📅 Tháng 5, 2026</div>
+      </div>
+      <div class="announce-card reveal">
+        <span class="announce-tag tag-news">Tin tức</span>
+        <div class="announce-title">🎙️ Talk Show tháng 7 — Đăng ký ngay</div>
+        <p class="announce-desc">Buổi giao lưu trực tiếp tháng 7 sắp diễn ra. Chủ đề: "Sáng tạo nội dung cho người mới bắt đầu".</p>
+        <div class="announce-date">📅 Tháng 7, 2026</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DISCORD CTA -->
+  <section id="discord-home">
+    <div class="discord-wrap reveal">
+      <div class="discord-logo">🪐</div>
+      <h2 class="discord-title">Sẵn sàng bay vào vũ trụ?</h2>
+      <p class="discord-sub">Hàng nghìn thành viên đang chờ bạn. Cộng đồng của bạn — ngôi nhà của bạn.</p>
+      <a href="https://discord.gg/eEqWgBvBZ" target="_blank" rel="noopener" class="cta-btn"><span>THAM GIA DISCORD 🚀</span></a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-links">
+    <a href="trang-chu.html">Trang Chủ</a>
+    <a href="kham-pha.html">Khám Phá</a>
+    <a href="huong-dan.html">Hướng Dẫn</a>
+    <a href="the-le.html">Thể Lệ</a>
+    <a href="https://discord.gg/eEqWgBvBZ" target="_blank" rel="noopener">Discord</a>
+  </div>
+  <p class="footer-copy">© 2026 Infinity Community. All rights reserved.</p>
+  <div class="footer-ticker-wrap">
+    <span class="footer-ticker">TOGETHER &nbsp;•&nbsp; WE ARE &nbsp;•&nbsp; INFINITE &nbsp;•&nbsp; TOGETHER &nbsp;•&nbsp; WE ARE &nbsp;•&nbsp; INFINITE &nbsp;•&nbsp; TOGETHER &nbsp;•&nbsp; WE ARE &nbsp;•&nbsp; INFINITE</span>
+  </div>
+</footer>
+
+<button id="back-top" aria-label="Về đầu trang">↑</button>
+
+<script src="shared.js"></script>
+<script>
+  /* Animated counter */
+  function animateCounter(el) {
+    const target = +el.dataset.target;
+    const suffix = el.dataset.suffix || '';
+    const duration = 1800;
+    const step = target / (duration / 16);
+    let current = 0;
+    const timer = setInterval(() => {
+      current = Math.min(current + step, target);
+      el.textContent = Math.floor(current) + suffix;
+      if (current >= target) clearInterval(timer);
+    }, 16);
+  }
+
+  const counterObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        animateCounter(e.target);
+        counterObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('.stat-num[data-target]').forEach(el => counterObs.observe(el));
+</script>
+</body>
+</html>
